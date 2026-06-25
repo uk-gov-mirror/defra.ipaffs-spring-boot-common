@@ -43,7 +43,7 @@ jobs:
           jdkVersionOption: '1.21'
           jdkArchitectureOption: 'x64'
           publishJUnitResults: true
-          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          testResultsFiles: '**/surefire-reports/*.xml'
           options: '--s $(mavenSettings.secureFilePath)'
           goals: 'clean test jacoco:report'
 
