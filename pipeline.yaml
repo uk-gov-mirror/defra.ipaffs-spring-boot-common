@@ -45,7 +45,7 @@ jobs:
           publishJUnitResults: true
           testResultsFiles: '**/surefire-reports/*.xml'
           options: '--s $(mavenSettings.secureFilePath)'
-          goals: 'clean test jacoco:report'
+          goals: 'clean test jacoco:report deploy --batch-mode'
 
       - task: PublishCodeCoverageResults@2
         displayName: 'Publish code coverage'

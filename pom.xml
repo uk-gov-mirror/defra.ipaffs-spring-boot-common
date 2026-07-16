@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-dependencies</artifactId>
-    <version>3.5.5</version>
+    <version>3.5.14</version>
   </parent>
 
   <properties>
@@ -68,7 +68,7 @@
   </modules>
 
   <distributionManagement>
-    <snapshotRepository>
+<!--    <snapshotRepository>
       <id>release</id>
       <name>Snapshots</name>
       <url>https://artifactoryv2.azure.defra.cloud/artifactory/maven-snapshots-local</url>
@@ -77,6 +77,11 @@
       <id>release</id>
       <name>Releases</name>
       <url>${repo.releases.url}</url>
+    </repository>-->
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/DEFRA/ipaffs-spring-boot-common</url>
     </repository>
   </distributionManagement>
 
