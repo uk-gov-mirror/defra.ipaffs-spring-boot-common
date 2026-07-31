@@ -19,6 +19,16 @@ jobs:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     steps:
+      - checkout: self
+        fetchDepth: 0
+        persistCredentials: true
+
+      - script: |
+          git checkout $(Build.SourceBranchName)
+          git status
+          git branch
+        displayName: Prepare Git
+
       - task: DownloadSecureFile@1
         name: mavenSettings
         displayName: 'Download Maven Settings'
