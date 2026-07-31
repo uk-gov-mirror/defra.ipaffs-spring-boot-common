@@ -54,7 +54,7 @@ jobs:
           pathToSources: $(System.DefaultWorkingDirectory)/service/src/main/java/
 
       - script: |
-          git config user.name "imports-jenkins@defra.onmicrosoft.com"
+          git config user.name "imports-jenkins"
           git config user.email "imports-jenkins@defra.onmicrosoft.com"
           
           git config --global push.default simple
@@ -107,7 +107,7 @@ jobs:
 #        displayName: "Checkout release branch"
 
 #      - script: |
-#          git config user.name "imports-jenkins@defra.onmicrosoft.com"
+#          git config user.name "imports-jenkins"
 #          git config user.email "imports-jenkins@defra.onmicrosoft.com"
           
 #          git config --global push.default simple
