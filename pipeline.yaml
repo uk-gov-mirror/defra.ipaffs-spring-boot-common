@@ -14,7 +14,7 @@ pool:
 jobs:
   - job: Build
     displayName: Build
-    condition: and(not(failed()), not(canceled()), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+    condition: and(not(failed()), not(canceled()))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
@@ -55,7 +55,8 @@ jobs:
 
   - job: Release
     displayName: Release
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    dependsOn: Build
+    condition: succeeded()
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
