@@ -33,7 +33,7 @@ jobs:
         name: mavenSettings
         displayName: 'Download Maven Settings'
         inputs:
-          secureFile: 'maven-settings.xml'
+          secureFile: 'maven.xml'
 
       - task: Cache@2
         inputs:
@@ -139,7 +139,7 @@ jobs:
 #        name: mavenSettings
 #        displayName: 'Download Maven Settings'
 #        inputs:
-#          secureFile: 'maven-settings.xml'
+#          secureFile: 'maven.xml'
 
 #      - task: Cache@2
 #        inputs:
