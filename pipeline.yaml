@@ -12,8 +12,8 @@ pool:
   name: 'DEFRA-COMMON-UBUNTU-SSV5'
 
 jobs:
-  - job: Build
-    displayName: Build
+  - job: Release
+    displayName: Release
     condition: and(not(failed()), not(canceled()), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
@@ -63,25 +63,6 @@ jobs:
         displayName: Cache Maven local repo
 
       - task: Maven@4
-        displayName: 'Build and Test'
-        inputs:
-          mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.21'
-          jdkArchitectureOption: 'x64'
-          publishJUnitResults: true
-          testResultsFiles: '**/surefire-reports/*.xml'
-          options: '--s $(mavenSettings.secureFilePath)'
-          goals: 'clean test jacoco:report deploy --batch-mode'
-
-      - task: PublishCodeCoverageResults@2
-        displayName: 'Publish code coverage'
-        inputs:
-          summaryFileLocation: $(System.DefaultWorkingDirectory)/service/target/site/jacoco/jacoco.xml
-          pathToSources: $(System.DefaultWorkingDirectory)/service/src/main/java/
-
-      - task: Maven@4
         displayName: 'Release'
         condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
         inputs:
@@ -91,5 +72,5 @@ jobs:
           jdkVersionOption: '1.21'
           jdkArchitectureOption: 'x64'
           options: '--s $(mavenSettings.secureFilePath)'
-          goals: '--batch-mode release:prepare release:perform -DskipTests=true'
+          goals: '--batch-mode clean test package release:prepare release:perform'
 
