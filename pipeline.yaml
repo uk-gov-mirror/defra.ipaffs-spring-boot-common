@@ -52,3 +52,15 @@ jobs:
         inputs:
           summaryFileLocation: $(System.DefaultWorkingDirectory)/service/target/site/jacoco/jacoco.xml
           pathToSources: $(System.DefaultWorkingDirectory)/service/src/main/java/
+
+      - task: Maven@4
+        displayName: 'Release'
+        inputs:
+          mavenPomFile: 'pom.xml'
+          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.21'
+          jdkArchitectureOption: 'x64'
+          options: '--s $(mavenSettings.secureFilePath)'
+          goals: '--batch-mode release:prepare release:perform -DskipTests=true'
+
