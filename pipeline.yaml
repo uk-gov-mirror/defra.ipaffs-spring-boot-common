@@ -66,15 +66,6 @@ jobs:
         fetchDepth: 0
 
       - script: |
-          git remote -v
-          git status
-          git branch
-          
-          echo "Testing push permissions..."
-          git push --dry-run origin HEAD:$(Build.SourceBranchName)
-        displayName: "Test Git push"
-
-      - script: |
           echo "Source branch: $(Build.SourceBranch)"
           echo "Branch name: $(Build.SourceBranchName)"
           
@@ -95,8 +86,17 @@ jobs:
           git config --global push.default simple
           
           git config --list        
-
         displayName: "Configure Git"
+
+      - script: |
+          git remote -v
+          git status
+          git branch
+          
+          echo "Testing push permissions..."
+          git push --dry-run origin HEAD:$(Build.SourceBranchName)
+        displayName: "Test Git push"
+
 
       - task: DownloadSecureFile@1
         name: mavenSettings
