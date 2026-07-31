@@ -63,7 +63,15 @@ jobs:
     steps:
       - checkout: self
         persistCredentials: true
-        
+
+      - script: |
+          git config user.email "imports-jenkins@defra.onmicrosoft.com"
+          git config user.name "imports-jenkins"
+          
+          git config --global push.default simple
+          
+          git config --list        
+
       - task: DownloadSecureFile@1
         name: mavenSettings
         displayName: 'Download Maven Settings'
