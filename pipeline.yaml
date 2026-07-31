@@ -28,6 +28,20 @@ jobs:
         displayName: Checkout branch
 
       - script: |
+          LAST_COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
+          echo "Last commit message: $LAST_COMMIT_MESSAGE"
+
+          if [[ "$LAST_COMMIT_MESSAGE" == *"maven-release-plugin"* ]] || \
+             [[ "$LAST_COMMIT_MESSAGE" == *"bump-new-npm-version"* ]]; then
+            echo "Previous commit was a release commit. Skipping Maven release."
+            echo "##vso[task.setvariable variable=skipRelease]true"
+          else
+            echo "##vso[task.setvariable variable=skipRelease]false"
+          fi
+        displayName: Check last commit message
+
+
+      - script: |
           git config user.email "imports-jenkins@defra.onmicrosoft.com"
           git config user.name "imports-jenkins"
         displayName: "Git author"
@@ -69,6 +83,7 @@ jobs:
 
       - task: Maven@4
         displayName: 'Release'
+        condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
         inputs:
           mavenPomFile: 'pom.xml'
           mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
