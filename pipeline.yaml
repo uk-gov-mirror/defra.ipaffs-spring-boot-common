@@ -19,11 +19,6 @@ jobs:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     steps:
-      - script: |
-          git config user.email "imports-jenkins@defra.onmicrosoft.com"
-          git config user.name "imports-jenkins"
-        displayName: "Git author"
-
       - checkout: self
         persistCredentials: true
         fetchDepth: 0
@@ -31,6 +26,12 @@ jobs:
       - script: |
           git checkout $(Build.SourceBranchName)
         displayName: Checkout branch
+
+      - script: |
+          git config user.email "imports-jenkins@defra.onmicrosoft.com"
+          git config user.name "imports-jenkins"
+        displayName: "Git author"
+
 
       - task: DownloadSecureFile@1
         name: mavenSettings
