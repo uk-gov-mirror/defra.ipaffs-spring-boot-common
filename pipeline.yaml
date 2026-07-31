@@ -53,65 +53,14 @@ jobs:
           summaryFileLocation: $(System.DefaultWorkingDirectory)/service/target/site/jacoco/jacoco.xml
           pathToSources: $(System.DefaultWorkingDirectory)/service/src/main/java/
 
-  - job: Release
-    displayName: Release
-    dependsOn: Build
-    condition: succeeded()
-    variables:
-      MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
-      MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
-    steps:
-      - checkout: self
-        persistCredentials: true
-        fetchDepth: 0
-
-      - script: |
-          echo "Source branch: $(Build.SourceBranch)"
-          echo "Branch name: $(Build.SourceBranchName)"
-          
-          git fetch --tags origin
-          
-          git checkout $(Build.SourceBranchName)
-          
-          git pull origin $(Build.SourceBranchName)
-          
-          git status
-          git branch
-        displayName: "Checkout release branch"
-
       - script: |
           git config user.name "imports-jenkins@defra.onmicrosoft.com"
           git config user.email "imports-jenkins@defra.onmicrosoft.com"
           
           git config --global push.default simple
           
-          git config --list        
+          git config --list
         displayName: "Configure Git"
-
-      - script: |
-          git remote -v
-          git status
-          git branch
-          
-          echo "Testing push permissions..."
-          git push --dry-run origin HEAD:$(Build.SourceBranchName)
-        displayName: "Test Git push"
-
-
-      - task: DownloadSecureFile@1
-        name: mavenSettings
-        displayName: 'Download Maven Settings'
-        inputs:
-          secureFile: 'maven-settings.xml'
-
-      - task: Cache@2
-        inputs:
-          key: 'maven | "$(Agent.OS)" | **/pom.xml'
-          restoreKeys: |
-            maven | "$(Agent.OS)"
-            maven
-          path: $(MAVEN_CACHE_FOLDER)
-        displayName: Cache Maven local repo
 
       - task: Maven@4
         displayName: 'Prepare and Perform Release'
@@ -127,3 +76,81 @@ jobs:
             release:perform
             --batch-mode
             -DskipTests=true
+        
+  
+  
+
+#  - job: Release
+#    displayName: Release
+#    dependsOn: Build
+#    condition: succeeded()
+#    variables:
+#      MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+#      MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+#    steps:
+#      - checkout: self
+#        persistCredentials: true
+#        fetchDepth: 0
+
+#      - script: |
+#          echo "Source branch: $(Build.SourceBranch)"
+#          echo "Branch name: $(Build.SourceBranchName)"
+#
+#          git fetch --tags origin
+          
+#          git checkout $(Build.SourceBranchName)
+          
+#          git pull origin $(Build.SourceBranchName)
+          
+#          git status
+#          git branch
+#        displayName: "Checkout release branch"
+
+#      - script: |
+#          git config user.name "imports-jenkins@defra.onmicrosoft.com"
+#          git config user.email "imports-jenkins@defra.onmicrosoft.com"
+          
+#          git config --global push.default simple
+          
+#          git config --list
+#        displayName: "Configure Git"
+
+#      - script: |
+#          git remote -v
+#          git status
+#          git branch
+          
+#          echo "Testing push permissions..."
+#          git push --dry-run origin HEAD:$(Build.SourceBranchName)
+#        displayName: "Test Git push"
+
+
+#      - task: DownloadSecureFile@1
+#        name: mavenSettings
+#        displayName: 'Download Maven Settings'
+#        inputs:
+#          secureFile: 'maven-settings.xml'
+
+#      - task: Cache@2
+#        inputs:
+#          key: 'maven | "$(Agent.OS)" | **/pom.xml'
+#          restoreKeys: |
+#            maven | "$(Agent.OS)"
+#            maven
+#          path: $(MAVEN_CACHE_FOLDER)
+#        displayName: Cache Maven local repo
+
+#      - task: Maven@4
+#        displayName: 'Prepare and Perform Release'
+#        inputs:
+#          mavenPomFile: 'pom.xml'
+#          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
+#          javaHomeOption: 'JDKVersion'
+#          jdkVersionOption: '1.21'
+#          jdkArchitectureOption: 'x64'
+#          options: '--settings $(mavenSettings.secureFilePath)'
+#          goals: >
+#            release:prepare
+#            release:perform
+#            --batch-mode
+#            -DskipTests=true
