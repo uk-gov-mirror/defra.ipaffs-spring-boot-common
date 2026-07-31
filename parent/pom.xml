@@ -3,7 +3,7 @@
 
   <groupId>uk.gov.defra.tracesx</groupId>
   <artifactId>tracesx-springboot-common-parent</artifactId>
-  <version>4.0.23-SNAPSHOT</version>
+  <version>4.0.24-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -37,7 +37,7 @@
 
     ie it will get bumped/have -SNAPSHOT added/removed when the main build runs on the CI server
     -->
-    <tracesx.springboot.common.version>4.0.23-SNAPSHOT</tracesx.springboot.common.version>
+    <tracesx.springboot.common.version>4.0.24-SNAPSHOT</tracesx.springboot.common.version>
 
     <java.version>21</java.version>
 
