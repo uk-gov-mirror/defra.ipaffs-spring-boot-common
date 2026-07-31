@@ -52,3 +52,40 @@ jobs:
         inputs:
           summaryFileLocation: $(System.DefaultWorkingDirectory)/service/target/site/jacoco/jacoco.xml
           pathToSources: $(System.DefaultWorkingDirectory)/service/src/main/java/
+
+  - job: Release
+    displayName: Release
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    variables:
+      MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+      MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+    steps:
+      - task: DownloadSecureFile@1
+        name: mavenSettings
+        displayName: 'Download Maven Settings'
+        inputs:
+          secureFile: 'maven-settings.xml'
+
+      - task: Cache@2
+        inputs:
+          key: 'maven | "$(Agent.OS)" | **/pom.xml'
+          restoreKeys: |
+            maven | "$(Agent.OS)"
+            maven
+          path: $(MAVEN_CACHE_FOLDER)
+        displayName: Cache Maven local repo
+
+      - task: Maven@4
+        displayName: 'Prepare and Perform Release'
+        inputs:
+          mavenPomFile: 'pom.xml'
+          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.21'
+          jdkArchitectureOption: 'x64'
+          options: '--settings $(mavenSettings.secureFilePath)'
+          goals: >
+            release:prepare
+            release:perform
+            --batch-mode
+            -DskipTests=true
