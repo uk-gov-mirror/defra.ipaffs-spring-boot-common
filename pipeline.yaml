@@ -19,6 +19,19 @@ jobs:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     steps:
+      - script: |
+          git config user.email "imports-jenkins@defra.onmicrosoft.com"
+          git config user.name "imports-jenkins"
+        displayName: "Git author"
+
+      - checkout: self
+        persistCredentials: true
+        fetchDepth: 0
+
+      - script: |
+          git checkout $(Build.SourceBranchName)
+        displayName: Checkout branch
+
       - task: DownloadSecureFile@1
         name: mavenSettings
         displayName: 'Download Maven Settings'
@@ -52,19 +65,6 @@ jobs:
         inputs:
           summaryFileLocation: $(System.DefaultWorkingDirectory)/service/target/site/jacoco/jacoco.xml
           pathToSources: $(System.DefaultWorkingDirectory)/service/src/main/java/
-
-      - script: |
-          git config user.email "imports-jenkins@defra.onmicrosoft.com"
-          git config user.name "imports-jenkins"
-        displayName: "Git author"
-
-      - checkout: self
-        persistCredentials: true
-        fetchDepth: 0
-
-      - script: |
-          git checkout $(Build.SourceBranchName)
-        displayName: Checkout branch
 
       - task: Maven@4
         displayName: 'Release'
