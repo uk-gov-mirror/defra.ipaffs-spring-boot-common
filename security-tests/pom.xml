@@ -3,19 +3,19 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.defra.tracesx</groupId>
   <artifactId>tracesx-springboot-common-security-tests</artifactId>
-  <version>4.0.19</version>
+  <version>4.0.20-SNAPSHOT</version>
   <name>security-tests</name>
   <description>An integration test library for testing correct deployment of the Shared Spring Boot Web Security Configuration</description>
 
   <parent>
     <groupId>uk.gov.defra.tracesx</groupId>
     <artifactId>tracesx-springboot-common</artifactId>
-    <version>4.0.19</version>
+    <version>4.0.20-SNAPSHOT</version>
   </parent>
 
   <scm>
     <connection>${parent.scm.connection}</connection>
-    <tag>4.0.19-${env.BUILD_NUMBER}</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
