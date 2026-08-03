@@ -47,7 +47,7 @@ jobs:
         displayName: "Git author"
 
       - script: |
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com:DEFRA/ipaffs-spring-boot-common.git
+          git remote set-url origin "https://${GITHUB_TOKEN}@github.com/DEFRA/ipaffs-spring-boot-common.git
         displayName: Configure authenticated Git remote
 
       - task: DownloadSecureFile@1
