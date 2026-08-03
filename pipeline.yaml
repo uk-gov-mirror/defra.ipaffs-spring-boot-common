@@ -85,6 +85,7 @@ jobs:
           script: |
             set -euo pipefail
             
+            mvn -s $(mavenSettings.secureFilePath) help:effective-settings
             mvn --batch-mode -s $(mavenSettings.secureFilePath) release:prepare release:perform
         
         
