@@ -29,6 +29,10 @@ jobs:
         displayName: Git configuration
 
       - script: |
+          git push --dry-run origin HEAD:$(Build.SourceBranchName)
+        displayName: Test Git push
+
+      - script: |
           git checkout $(Build.SourceBranchName)
         displayName: Checkout branch
 
