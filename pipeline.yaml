@@ -17,7 +17,7 @@ jobs:
     condition: and(not(failed()), not(canceled()), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
-      MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+      MAVEN_OPTS: '-Xmx512m  -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     steps:
       - checkout: self
         persistCredentials: true
@@ -70,7 +70,7 @@ jobs:
           script: |
             set -euo pipefail
             
-            mvn -Xmx512m $(MAVEN_OPTS) --batch-mode -s $(mavenSettings.secureFilePath) release:prepare release:perform
+            mvn --batch-mode -s $(mavenSettings.secureFilePath) release:prepare release:perform
         
         
         
