@@ -53,6 +53,7 @@ jobs:
       - script: |
           git config user.name "IPAFFS CI Bot"
           git config user.email "ipaffs-ci-bot@defra.gov.uk"
+          git config --global http.https://github.com/.extraheader "$(git config --get http.https://github.com/DEFRA/ipaffs-spring-boot-common.extraheader)"
         displayName: "Git author"
 
       - task: DownloadSecureFile@1
