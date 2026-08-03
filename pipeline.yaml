@@ -46,12 +46,11 @@ jobs:
           git config user.name "imports-jenkins"
         displayName: "Git author"
 
-
       - task: DownloadSecureFile@1
         name: mavenSettings
         displayName: 'Download Maven Settings'
         inputs:
-          secureFile: 'maven.xml'
+          secureFile: 'maven-settings.xml'
 
       - task: Cache@2
         inputs:
@@ -72,5 +71,5 @@ jobs:
           jdkVersionOption: '1.21'
           jdkArchitectureOption: 'x64'
           options: '--s $(mavenSettings.secureFilePath)'
-          goals: '--batch-mode clean test package release:prepare release:perform'
+          goals: '--batch-mode release:prepare release:perform'
 
