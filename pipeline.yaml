@@ -46,10 +46,6 @@ jobs:
           git config user.name "imports-jenkins"
         displayName: "Git author"
 
-      - script: |
-          git remote set-url origin "https://richardpopple:${GITHUB_TOKEN}@github.com/DEFRA/ipaffs-spring-boot-common.git"
-        displayName: Configure authenticated Git remote
-
       - task: DownloadSecureFile@1
         name: mavenSettings
         displayName: 'Download Maven Settings'
