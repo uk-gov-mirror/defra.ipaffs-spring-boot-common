@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.defra.tracesx</groupId>
   <artifactId>tracesx-springboot-common-security-tests</artifactId>
-  <version>4.0.26-SNAPSHOT</version>
+  <version>4.0.27-SNAPSHOT</version>
   <name>security-tests</name>
   <description>An integration test library for testing correct deployment of the Shared Spring Boot Web Security Configuration</description>
 
   <parent>
     <groupId>uk.gov.defra.tracesx</groupId>
     <artifactId>tracesx-springboot-common</artifactId>
-    <version>4.0.26-SNAPSHOT</version>
+    <version>4.0.27-SNAPSHOT</version>
   </parent>
 
   <scm>
