@@ -61,6 +61,11 @@ jobs:
           path: $(MAVEN_CACHE_FOLDER)
         displayName: Cache Maven local repo
 
+      - task: JavaToolInstaller@0
+        inputs:
+          versionSpec: '21'
+          jdkArchitectureOption: 'x64'
+          jdkSourceOption: 'PreInstalled'
 
       - task: Bash@3
         displayName: 'Release'
