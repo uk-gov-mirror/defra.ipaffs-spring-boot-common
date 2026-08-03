@@ -42,8 +42,8 @@ jobs:
 
 
       - script: |
-          git config user.email "imports-jenkins@defra.onmicrosoft.com"
-          git config user.name "imports-jenkins"
+          git config user.name "IPAFFS CI Bot"
+          git config user.email "ipaffs-ci-bot@defra.gov.uk"
         displayName: "Git author"
 
       - task: DownloadSecureFile@1
@@ -61,15 +61,29 @@ jobs:
           path: $(MAVEN_CACHE_FOLDER)
         displayName: Cache Maven local repo
 
-      - task: Maven@4
+
+      - task: Bash@3
         displayName: 'Release'
         condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
         inputs:
-          mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.21'
-          jdkArchitectureOption: 'x64'
-          options: '--s $(mavenSettings.secureFilePath)'
-          goals: '--batch-mode release:prepare release:perform'
+          targetType: inline
+          script: |
+            set -euo pipefail
+            
+            mvn -Xmx512m $(MAVEN_OPTS) --batch-mode -s $(mavenSettings.secureFilePath) release:prepare release:perform
+        
+        
+        
+
+#      - task: Maven@4
+#        displayName: 'Release'
+#        condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
+#        inputs:
+#          mavenPomFile: 'pom.xml'
+#          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
+#          javaHomeOption: 'JDKVersion'
+#          jdkVersionOption: '1.21'
+#          jdkArchitectureOption: 'x64'
+#          options: '--s $(mavenSettings.secureFilePath)'
+#          goals: '--batch-mode release:prepare release:perform'
 
