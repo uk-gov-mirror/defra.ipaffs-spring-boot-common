@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.defra.tracesx</groupId>
   <artifactId>tracesx-springboot-common-health</artifactId>
-  <version>4.0.28-SNAPSHOT</version>
+  <version>4.0.29-SNAPSHOT</version>
   <name>health</name>
 
   <parent>
     <groupId>uk.gov.defra.tracesx</groupId>
     <artifactId>tracesx-springboot-common</artifactId>
-    <version>4.0.28-SNAPSHOT</version>
+    <version>4.0.29-SNAPSHOT</version>
   </parent>
 
   <scm>
