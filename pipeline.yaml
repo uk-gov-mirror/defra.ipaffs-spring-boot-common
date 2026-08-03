@@ -24,6 +24,11 @@ jobs:
         fetchDepth: 0
 
       - script: |
+          git remote -v
+          git config --show-origin --list
+        displayName: Git configuration
+
+      - script: |
           git checkout $(Build.SourceBranchName)
         displayName: Checkout branch
 
