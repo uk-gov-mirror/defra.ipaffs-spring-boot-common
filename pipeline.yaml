@@ -61,19 +61,6 @@ jobs:
         displayName: 'Checkout branch'
 
       - script: |
-          LAST_COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
-          echo "Last commit message: $LAST_COMMIT_MESSAGE"
-
-          if [[ "$LAST_COMMIT_MESSAGE" == *"maven-release-plugin"* ]] || \
-             [[ "$LAST_COMMIT_MESSAGE" == *"bump-new-npm-version"* ]]; then
-            echo "Previous commit was a release commit. Skipping Maven release."
-            echo "##vso[task.setvariable variable=skipRelease]true"
-          else
-            echo "##vso[task.setvariable variable=skipRelease]false"
-          fi
-        displayName: 'Check last commit message'
-
-      - script: |
           git config user.name "IPAFFS CI Bot"
           git config user.email "ipaffs-ci-bot@defra.gov.uk"
         displayName: 'Git author'
