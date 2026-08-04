@@ -34,12 +34,11 @@ jobs:
           LAST_COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
           echo "Last commit message: $LAST_COMMIT_MESSAGE"
 
-          if [[ "$LAST_COMMIT_MESSAGE" == *"maven-release-plugin"* ]] || \
-             [[ "$LAST_COMMIT_MESSAGE" == *"bump-new-npm-version"* ]]; then
+          if [[ "$LAST_COMMIT_MESSAGE" == *"maven-release-plugin"* ]]; then
             echo "Previous commit was a release commit. Skipping Maven release."
-            echo "##vso[task.setvariable variable=skipRelease]true"
+            echo "##vso[task.setvariable variable=skipRelease;isOutput=true]true"
           else
-            echo "##vso[task.setvariable variable=skipRelease]false"
+            echo "##vso[task.setvariable variable=skipRelease;isOutput=true]false"
           fi
         name: check
         displayName: 'Check last commit message'
@@ -82,7 +81,7 @@ jobs:
 
       - task: Maven@4
         displayName: 'Release'
-        condition: and(succeeded(), eq(variables['skipRelease'], 'false'))
+        condition: and(succeeded())
         env:
           GIT_HUB_TOKEN: $(gitHubToken)
         inputs:
