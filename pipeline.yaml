@@ -21,7 +21,7 @@ resources:
 
 variables:
   - group: Common
-  - template: "/pipelines/vars/common.yaml"
+  - template: "/pipelines/vars/common.yaml@ipaffs-infra"
 
 jobs:
   - job: Release
