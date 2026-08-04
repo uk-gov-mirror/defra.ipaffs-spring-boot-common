@@ -24,9 +24,30 @@ variables:
   - template: "/pipelines/vars/common.yaml@ipaffs-infra"
 
 jobs:
+  - job: CheckRelease
+    displayName: CheckRelease
+    steps:
+      - checkout: self
+        fetchDepth: 0
+
+      - bash: |
+          LAST_COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
+          echo "Last commit message: $LAST_COMMIT_MESSAGE"
+
+          if [[ "$LAST_COMMIT_MESSAGE" == *"maven-release-plugin"* ]] || \
+             [[ "$LAST_COMMIT_MESSAGE" == *"bump-new-npm-version"* ]]; then
+            echo "Previous commit was a release commit. Skipping Maven release."
+            echo "##vso[task.setvariable variable=skipRelease]true"
+          else
+            echo "##vso[task.setvariable variable=skipRelease]false"
+          fi
+        name: check
+        displayName: 'Check last commit message'
+
   - job: Release
     displayName: Release
-    condition: and(not(failed()), not(canceled()), eq(variables['Build.SourceBranch'], 'refs/heads/ado-pipeline'))
+    dependsOn: CheckRelease
+    condition: and(not(failed()), not(canceled()), eq(dependencies.CheckRelease.outputs['check.skipRelease'], 'false'), eq(variables['Build.SourceBranch'], 'refs/heads/ado-pipeline'))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Xmx512m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
@@ -74,7 +95,7 @@ jobs:
 
       - task: Maven@4
         displayName: 'Release'
-        condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
+        condition: and(succeeded(), eq(variables['skipRelease'], 'false'))
         env:
           GIT_HUB_TOKEN: $(gitHubToken)
         inputs:
