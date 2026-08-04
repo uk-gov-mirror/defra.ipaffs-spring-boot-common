@@ -17,24 +17,15 @@ jobs:
     condition: and(not(failed()), not(canceled()), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
-      MAVEN_OPTS: '-Xmx512m  -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+      MAVEN_OPTS: '-Xmx512m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
     steps:
       - checkout: self
         persistCredentials: true
         fetchDepth: 0
 
       - script: |
-          git remote -v
-          git config --show-origin --list
-        displayName: Git configuration
-
-      - script: |
-          git push --dry-run origin HEAD:$(Build.SourceBranchName)
-        displayName: Test Git push
-
-      - script: |
           git checkout $(Build.SourceBranchName)
-        displayName: Checkout branch
+        displayName: 'Checkout branch'
 
       - script: |
           LAST_COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
@@ -47,14 +38,12 @@ jobs:
           else
             echo "##vso[task.setvariable variable=skipRelease]false"
           fi
-        displayName: Check last commit message
-
+        displayName: 'Check last commit message'
 
       - script: |
           git config user.name "IPAFFS CI Bot"
           git config user.email "ipaffs-ci-bot@defra.gov.uk"
-          git config --global http.https://github.com/.extraheader "$(git config --get http.https://github.com/DEFRA/ipaffs-spring-boot-common.extraheader)"
-        displayName: "Git author"
+        displayName: 'Git author'
 
       - task: DownloadSecureFile@1
         name: mavenSettings
@@ -63,43 +52,24 @@ jobs:
           secureFile: 'maven-settings.xml'
 
       - task: Cache@2
+        displayName: 'Cache Maven local repo'
         inputs:
           key: 'maven | "$(Agent.OS)" | **/pom.xml'
           restoreKeys: |
             maven | "$(Agent.OS)"
             maven
           path: $(MAVEN_CACHE_FOLDER)
-        displayName: Cache Maven local repo
 
-      - task: JavaToolInstaller@0
-        inputs:
-          versionSpec: '21'
-          jdkArchitectureOption: 'x64'
-          jdkSourceOption: 'PreInstalled'
 
-      - task: Bash@3
+      - task: Maven@4
         displayName: 'Release'
         condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
         inputs:
-          targetType: inline
-          script: |
-            set -euo pipefail
-            
-            mvn -s $(mavenSettings.secureFilePath) help:effective-settings
-            mvn --batch-mode -s $(mavenSettings.secureFilePath) release:prepare release:perform
-        
-        
-        
-
-#      - task: Maven@4
-#        displayName: 'Release'
-#        condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
-#        inputs:
-#          mavenPomFile: 'pom.xml'
-#          mavenOptions: '-Xmx512m $(MAVEN_OPTS)'
-#          javaHomeOption: 'JDKVersion'
-#          jdkVersionOption: '1.21'
-#          jdkArchitectureOption: 'x64'
-#          options: '--s $(mavenSettings.secureFilePath)'
-#          goals: '--batch-mode release:prepare release:perform'
+          mavenPomFile: 'pom.xml'
+          mavenOptions: $(MAVEN_OPTS)
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.21'
+          jdkArchitectureOption: 'x64'
+          options: '--settings $(mavenSettings.secureFilePath)'
+          goals: '--batch-mode release:prepare release:perform'
 
