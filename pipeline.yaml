@@ -14,7 +14,7 @@ pool:
 jobs:
   - job: Release
     displayName: Release
-    condition: and(not(failed()), not(canceled()), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(not(failed()), not(canceled()), e(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Xmx512m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
@@ -60,7 +60,6 @@ jobs:
             maven
           path: $(MAVEN_CACHE_FOLDER)
 
-
       - task: Maven@4
         displayName: 'Release'
         condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
@@ -72,4 +71,3 @@ jobs:
           jdkArchitectureOption: 'x64'
           options: '--settings $(mavenSettings.secureFilePath)'
           goals: '--batch-mode release:prepare release:perform'
-

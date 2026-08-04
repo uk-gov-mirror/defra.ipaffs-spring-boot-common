@@ -68,16 +68,6 @@
   </modules>
 
   <distributionManagement>
-<!--    <snapshotRepository>
-      <id>release</id>
-      <name>Snapshots</name>
-      <url>https://artifactoryv2.azure.defra.cloud/artifactory/maven-snapshots-local</url>
-    </snapshotRepository>
-    <repository>
-      <id>release</id>
-      <name>Releases</name>
-      <url>${repo.releases.url}</url>
-    </repository>-->
     <repository>
       <id>github</id>
       <name>GitHub Packages</name>
@@ -235,7 +225,7 @@
           <version>3.1.1</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <tagNameFormat>@{project.version}-${env.BUILD_NUMBER}</tagNameFormat>
+            <tagNameFormat>@{project.version}-${env.BUILD_BUILDID}</tagNameFormat>
             <releaseProfiles>release</releaseProfiles>
           </configuration>
         </plugin>
