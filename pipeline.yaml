@@ -81,7 +81,6 @@ jobs:
 
       - task: Maven@4
         displayName: 'Release'
-        condition: and(succeeded())
         env:
           GIT_HUB_TOKEN: $(gitHubToken)
         inputs:
