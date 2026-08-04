@@ -11,6 +11,18 @@ pr:
 pool:
   name: 'DEFRA-COMMON-UBUNTU-SSV5'
 
+resources:
+  repositories:
+    - repository: ipaffs-infra
+      type: github
+      endpoint: DEFRA
+      name: DEFRA/ipaffs-infra
+      ref: refs/heads/main
+
+variables:
+  - group: Common
+  - template: "/pipelines/vars/common.yaml"
+
 jobs:
   - job: Release
     displayName: Release
@@ -63,6 +75,8 @@ jobs:
       - task: Maven@4
         displayName: 'Release'
         condition: and(succeeded(), ne(variables['skipRelease'], 'true'))
+        env:
+          GIT_HUB_TOKEN: $(gitHubToken)
         inputs:
           mavenPomFile: 'pom.xml'
           mavenOptions: $(MAVEN_OPTS)
