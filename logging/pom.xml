@@ -3,13 +3,13 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tracesx-springboot-common-logging</artifactId>
-  <version>4.0.31-SNAPSHOT</version>
+  <version>4.0.32-SNAPSHOT</version>
   <name>logging</name>
 
   <parent>
     <groupId>uk.gov.defra.tracesx</groupId>
     <artifactId>tracesx-springboot-common</artifactId>
-    <version>4.0.31-SNAPSHOT</version>
+    <version>4.0.32-SNAPSHOT</version>
   </parent>
 
   <scm>
