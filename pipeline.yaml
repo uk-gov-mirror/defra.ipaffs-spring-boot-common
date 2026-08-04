@@ -14,7 +14,7 @@ pool:
 jobs:
   - job: Release
     displayName: Release
-    condition: and(not(failed()), not(canceled()), e(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(not(failed()), not(canceled()), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Xmx512m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
