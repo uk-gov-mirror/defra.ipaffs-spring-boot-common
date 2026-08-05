@@ -102,7 +102,6 @@ public class JwtTokenValidator {
           Set.of("exp"))
           .verify(claims, null);
 
-      LOGGER.info("JWT claims verified successfully.");
       return VerificationResult.SUCCESS;
     } catch (BadJWTException exception) {
       if (exception.getMessage().contains("issuer")) {

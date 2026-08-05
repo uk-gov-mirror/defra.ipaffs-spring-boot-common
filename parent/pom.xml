@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>uk.gov.defra.tracesx</groupId>
-  <artifactId>TracesX-SpringBoot-Common-Parent</artifactId>
-  <version>4.0.19-SNAPSHOT</version>
+  <artifactId>tracesx-springboot-common-parent</artifactId>
+  <version>4.0.35-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>parent</name>
@@ -12,19 +12,15 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.5</version>
+    <version>3.5.14</version>
   </parent>
 
+
   <distributionManagement>
-    <snapshotRepository>
-      <id>release</id>
-      <name>Snapshots</name>
-      <url>https://artifactoryv2.azure.defra.cloud/artifactory/maven-snapshots-local</url>
-    </snapshotRepository>
     <repository>
-      <id>release</id>
-      <name>Releases</name>
-      <url>${repo.releases.url}</url>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/DEFRA/ipaffs-spring-boot-common</url>
     </repository>
   </distributionManagement>
 
@@ -41,7 +37,7 @@
 
     ie it will get bumped/have -SNAPSHOT added/removed when the main build runs on the CI server
     -->
-    <tracesx.springboot.common.version>4.0.19-SNAPSHOT</tracesx.springboot.common.version>
+    <tracesx.springboot.common.version>4.0.35-SNAPSHOT</tracesx.springboot.common.version>
 
     <java.version>21</java.version>
 
@@ -82,42 +78,42 @@
     <dependencies>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Azure</artifactId>
+        <artifactId>tracesx-springboot-common-azure</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Event</artifactId>
+        <artifactId>tracesx-springboot-common-event</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Health</artifactId>
+        <artifactId>tracesx-springboot-common-health</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Health-Tests</artifactId>
+        <artifactId>tracesx-springboot-common-health-tests</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Logging</artifactId>
+        <artifactId>tracesx-springboot-common-logging</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Security</artifactId>
+        <artifactId>tracesx-springboot-common-security</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Security-Tests</artifactId>
+        <artifactId>tracesx-springboot-common-security-tests</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>
         <groupId>uk.gov.defra.tracesx</groupId>
-        <artifactId>TracesX-SpringBoot-Common-Version</artifactId>
+        <artifactId>tracesx-springboot-common-version</artifactId>
         <version>${tracesx.springboot.common.version}</version>
       </dependency>
       <dependency>

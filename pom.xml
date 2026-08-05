@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.defra.tracesx</groupId>
-  <artifactId>TracesX-SpringBoot-Common</artifactId>
-  <version>4.0.19-SNAPSHOT</version>
+  <artifactId>tracesx-springboot-common</artifactId>
+  <version>4.0.35-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Shared Spring Boot: Common Libraries Parent and Aggregator Module</description>
   <name>common-parent</name>
@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-dependencies</artifactId>
-    <version>3.5.5</version>
+    <version>3.5.14</version>
   </parent>
 
   <properties>
@@ -68,15 +68,10 @@
   </modules>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>release</id>
-      <name>Snapshots</name>
-      <url>https://artifactoryv2.azure.defra.cloud/artifactory/maven-snapshots-local</url>
-    </snapshotRepository>
     <repository>
-      <id>release</id>
-      <name>Releases</name>
-      <url>${repo.releases.url}</url>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/DEFRA/ipaffs-spring-boot-common</url>
     </repository>
   </distributionManagement>
 
@@ -227,10 +222,10 @@
         </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.3</version>
+          <version>3.1.1</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <tagNameFormat>@{project.version}-${env.BUILD_NUMBER}</tagNameFormat>
+            <tagNameFormat>@{project.version}-${env.BUILD_BUILDID}</tagNameFormat>
             <releaseProfiles>release</releaseProfiles>
           </configuration>
         </plugin>
