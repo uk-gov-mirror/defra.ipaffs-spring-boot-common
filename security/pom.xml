@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.gov.defra.tracesx</groupId>
   <artifactId>tracesx-springboot-common-security</artifactId>
-  <version>4.0.36</version>
+  <version>4.0.37-SNAPSHOT</version>
   <name>security</name>
   <description>Shared Spring Boot Web Security configuration</description>
 
   <parent>
     <groupId>uk.gov.defra.tracesx</groupId>
     <artifactId>tracesx-springboot-common</artifactId>
-    <version>4.0.36</version>
+    <version>4.0.37-SNAPSHOT</version>
   </parent>
 
   <properties>
@@ -19,7 +19,7 @@
 
   <scm>
     <connection>${parent.scm.connection}</connection>
-    <tag>4.0.36-1348768</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
